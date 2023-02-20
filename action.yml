@@ -79,6 +79,10 @@ inputs:
     description: 'Customize asset name if do not want to use the default format.'
     required: false
     default: ''
+  repo:
+    description: 'On which repo to publish the releases.
+    required: false
+    default: ''
   retry:
     description: 'How many times retrying if upload fails.'
     required: false
@@ -114,6 +118,7 @@ runs:
     - ${{ inputs.release_name }}
     - ${{ inputs.overwrite }}
     - ${{ inputs.asset_name }}
+    - ${{ inputs.repo }}
     - ${{ inputs.retry }}
     - ${{ inputs.post_command }}
     - ${{ inputs.compress_assets }}
