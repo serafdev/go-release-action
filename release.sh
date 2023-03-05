@@ -12,8 +12,8 @@ elif [ ! -z "${INPUT_RELEASE_NAME}" ]; then # prevent upload-asset by tag due to
   RELEASE_TAG=""
 fi
 
-if [ -z "${REPO}" ]; then
-  REPO=${GITHUB_REPOSITORY}
+if [ -z "${INPUT_REPO}" ]; then
+  INPUT_REPO=${GITHUB_REPOSITORY}
 fi
 
 RELEASE_NAME=${INPUT_RELEASE_NAME}
@@ -143,19 +143,19 @@ if [ ${INPUT_OVERWRITE^^} == 'TRUE' ]; then
 fi
 
 # update binary and checksum
-github-assets-uploader -logtostderr -f ${RELEASE_ASSET_FILE} -mediatype ${MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${REPO} -token ${INPUT_GITHUB_TOKEN} -tag=${RELEASE_TAG} -releasename=${RELEASE_NAME} -retry ${INPUT_RETRY}
+github-assets-uploader -logtostderr -f ${RELEASE_ASSET_FILE} -mediatype ${MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${INPUT_REPO} -token ${INPUT_GITHUB_TOKEN} -tag=${RELEASE_TAG} -releasename=${RELEASE_NAME} -retry ${INPUT_RETRY}
 if [ ${INPUT_MD5SUM^^} == 'TRUE' ]; then
 MD5_EXT='.md5'
 MD5_MEDIA_TYPE='text/plain'
 echo ${MD5_SUM} >${RELEASE_ASSET_FILE}${MD5_EXT}
-github-assets-uploader -logtostderr -f ${RELEASE_ASSET_FILE}${MD5_EXT} -mediatype ${MD5_MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${REPO} -token ${INPUT_GITHUB_TOKEN} -tag=${RELEASE_TAG} -releasename=${RELEASE_NAME} -retry ${INPUT_RETRY}
+github-assets-uploader -logtostderr -f ${RELEASE_ASSET_FILE}${MD5_EXT} -mediatype ${MD5_MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${INPUT_REPO} -token ${INPUT_GITHUB_TOKEN} -tag=${RELEASE_TAG} -releasename=${RELEASE_NAME} -retry ${INPUT_RETRY}
 fi
 
 if [ ${INPUT_SHA256SUM^^} == 'TRUE' ]; then
 SHA256_EXT='.sha256'
 SHA256_MEDIA_TYPE='text/plain'
 echo ${SHA256_SUM} >${RELEASE_ASSET_FILE}${SHA256_EXT}
-github-assets-uploader -logtostderr -f ${RELEASE_ASSET_FILE}${SHA256_EXT} -mediatype ${SHA256_MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${REPO} -token ${INPUT_GITHUB_TOKEN} -tag=${RELEASE_TAG} -releasename=${RELEASE_NAME} -retry ${INPUT_RETRY}
+github-assets-uploader -logtostderr -f ${RELEASE_ASSET_FILE}${SHA256_EXT} -mediatype ${SHA256_MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${INPUT_REPO} -token ${INPUT_GITHUB_TOKEN} -tag=${RELEASE_TAG} -releasename=${RELEASE_NAME} -retry ${INPUT_RETRY}
 fi
 
 # execute post-command if exist, e.g. upload to AWS s3 or aliyun OSS
